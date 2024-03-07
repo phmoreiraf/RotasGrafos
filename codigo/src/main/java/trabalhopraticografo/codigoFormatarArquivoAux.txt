@@ -1,0 +1,43 @@
+ // Processar as linhas do arquivo
+            while (scanner.hasNextLine()) {
+                String linha = scanner.nextLine();
+                String[] partes = linha.split(":");
+                String nomeCidadeOrigem = partes[0].trim();
+                String[] conexoes = partes[1].split(",");
+
+                // Criar a cidade de origem
+                cidadeOrigem = grafo.buscarCidadePorNome(nomeCidadeOrigem);
+                if (cidadeOrigem == null) {
+                    cidadeOrigem = new Cidade(nomeCidadeOrigem);
+                    grafo.adicionarCidade(cidadeOrigem);
+                }
+
+                // Processar as conexões da cidade de origem
+                for (String conexao : conexoes) {
+                    // Use uma expressão regular para extrair o nome da cidade e o peso
+                    String[] infoConexao = conexao.trim().split("\\s*\\(\\s*|\\s*\\)\\s*");
+
+                    if (infoConexao.length != 2) {
+                        System.err.println("Formato de conexão inválido: " + conexao);
+                        continue;
+                    }
+                    String nomeCidadeDestino = infoConexao[0].trim();
+
+                    int peso;
+                    try {
+                        peso = Integer.parseInt(infoConexao[1].trim());
+                    } catch (NumberFormatException e) {
+                        System.err.println("Erro ao converter peso para número inteiro: " + infoConexao[1]);
+                        continue; // Pule esta iteração do loop e continue com a próxima conexão
+                    }
+
+                    Cidade cidadeDestino = grafo.buscarCidadePorNome(nomeCidadeDestino);
+                    if (cidadeDestino == null) {
+                        cidadeDestino = new Cidade(nomeCidadeDestino);
+                        grafo.adicionarCidade(cidadeDestino);
+                    }
+
+                    Aresta aresta = new Aresta(cidadeOrigem, cidadeDestino, peso);
+                    grafo.adicionarAresta(aresta);
+                }
+            }

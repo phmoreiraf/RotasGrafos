@@ -1,0 +1,4 @@
+Belo Horizonte: Goiania(900), Uberlandia(600), Macaubas(1200)
+Goiania: Belo Horizonte(900), Uberlandia(400), Macaubas(900)
+Uberlandia: Belo Horizonte(600), Goiania(400), Macaubas(700)
+Macaubas: Belo Horizonte(1200), Goiania(900), Uberlandia(700)
